@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk - StockFlow</title>
+    <!-- Menggunakan Font Inter agar terlihat modern dan bersih -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons untuk ikon pada input -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 440px;
+            padding: 40px 32px;
+            text-align: center;
+            border: 1px solid #eaeaea;
+        }
+
+        /* Logo Container */
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            border: 3px solid #000000;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            padding: 8px;
+            background-color: #ffffff;
+        }
+
+        .logo-placeholder {
+            font-weight: 700;
+            font-size: 12px;
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo-icon {
+            color: #4f46e5;
+            width: 28px;
+            height: 28px;
+        }
+
+        .logo-text {
+            font-size: 11px;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-subtext {
+            font-size: 6px;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        /* Form Controls */
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .label-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+
+        .forgot-password {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            color: #b3b3b3;
+            width: 18px;
+            height: 18px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fafafa;
+            color: #333333;
+            transition: border-color 0.2s, background-color 0.2s;
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #b3b3b3;
+        }
+
+        .form-control:focus {
+            border-color: #4f5e74;
+            background-color: #ffffff;
+        }
+
+        /* Checkbox "Ingat Saya" */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 28px;
+            cursor: pointer;
+            user-select: none;
+            width: fit-content;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            accent-color: #4a5568;
+            cursor: pointer;
+        }
+
+        .remember-me span {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .btn:active {
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background-color: #4a5568; /* Warna keabuan gelap sesuai desain */
+            color: #ffffff;
+            border: none;
+            margin-bottom: 28px;
+        }
+
+        .btn-primary .btn-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Divider "atau" */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 28px;
+            color: #888888;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: 12px;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: 12px;
+        }
+
+        /* Google Button */
+        .btn-google {
+            background-color: #fafafa;
+            color: #333333;
+            border: 1px solid #e0e0e0;
+        }
+
+        .google-icon {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <!-- Logo StockFlow -->
+        <div class="logo-container">
+            <div class="logo-placeholder">
+                <!-- Representasi grafis logo sederhana -->
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <div class="logo-text">StockFlow</div>
+                <div class="logo-subtext">Inventory Management</div>
+            </div>
+        </div>
+
+        <h1>Selamat Datang</h1>
+        <p class="subtitle">Masuk ke akun StockFlow Anda untuk melanjutkan.</p>
+
+        <form>
+            <!-- Input Email -->
+            <div class="form-group">
+                <label for="email">Email atau Nama Pengguna</label>
+                <div class="input-wrapper">
+                    <i data-lucide="user" class="input-icon"></i>
+                    <input type="text" id="email" class="form-control" placeholder="Masukkan email Anda" required>
+                </div>
+            </div>
+
+            <!-- Input Password -->
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <label for="password">Kata Sandi</label>
+                    <a href="#" class="forgot-password">Lupa kata sandi?</a>
+                </div>
+                <div class="input-wrapper">
+                    <i data-lucide="lock" class="input-icon"></i>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <!-- Ingat Saya Checkbox -->
+            <label class="remember-me">
+                <input type="checkbox" id="remember">
+                <span>Ingat saya</span>
+            </label>
+
+            <!-- Tombol Masuk -->
+            <button type="submit" class="btn btn-primary">
+                Masuk
+                <i data-lucide="arrow-right" class="btn-icon"></i>
+            </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">atau</div>
+
+        <!-- SEKARANG DIBUNGKUS TAG <a> UNTUK LINK -->
+        <a href="google-auth.html" style="text-decoration: none; width: 100%; display: block;">
+            <button type="button" class="btn btn-google">
+                <!-- SVG Logo Google Berwarna -->
+                <svg class="google-icon" viewBox="0 0 24 24">
+                    <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.52 5.52 0 0 1 8.5 13c0-3.037 2.462-5.5 5.5-5.5 1.406 0 2.68.53 3.655 1.4l3.112-3.112C18.882 3.912 16.58 3 14 3 8.478 3 4 7.478 4 13s4.478 10 10 10c5.5 0 9.5-4 9.5-9.5 0-.741-.09-1.428-.26-2.215H12.24z"/>
+                    <path fill="#4285F4" d="M23.24 11.285c.17.787.26 1.474.26 2.215 0 5.5-4 9.5-9.5 9.5V18.5c2.617 0 4.488-1.704 5.136-4.114h-6.887v-4.114h11z"/>
+                    <path fill="#FBBC05" d="M14 23c-5.522 0-10-4.478-10-10 0-1.127.188-2.211.533-3.226l-3.32-2.556C.422 8.914 0 10.912 0 13c0 6.627 5.373 12 12 12h2v-4.5c-.648.332-1.312.5-2 .5z"/>
+                    <path fill="#34A853" d="M14 3c2.58 0 4.882.912 6.767 2.788l3.112-3.112C20.12 1.056 17.218 0 14 0 7.373 0 2 5.373 2 12c0 .343.018.682.047 1.018l3.433-2.645C6.01 6.886 8.711 5 14 5v-2z"/>
+                </svg>
+                Masuk dengan Google
+            </button>
+        </a>
+
+    <!-- Script untuk merender ikon Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

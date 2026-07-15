@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - StockFlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            min-height: 100vh;
+            color: #1a1a1a;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px;
+            background-color: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 16px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-left: 12px;
+            margin-bottom: 40px;
+        }
+
+        .brand-icon-box {
+            background-color: #344054;
+            color: #ffffff;
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #101828;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: #667085;
+            font-weight: 400;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #475467;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background-color: #f2f4f7;
+            color: #101828;
+        }
+
+        .nav-item.active {
+            background-color: #d1e9ff;
+            color: #1e40af;
+        }
+
+        .sidebar-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-top: 1px solid #eaecf0;
+            padding-top: 20px;
+        }
+
+        .logout-item {
+            color: #b42318;
+        }
+        .logout-item:hover {
+            background-color: #fef3f2;
+            color: #b42318;
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-content {
+            margin-left: 260px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        /* Topbar Header */
+        .topbar {
+            height: 72px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .search-container {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667085;
+            width: 18px;
+            height: 18px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px 10px 40px;
+            border: 1px solid #d0d5dd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background-color: #fcfcfd;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #475467;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 0;
+            right: 2px;
+            width: 6px;
+            height: 6px;
+            background-color: #d92d20;
+            border-radius: 50%;
+        }
+
+        .profile-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            text-align: right;
+        }
+
+        .profile-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #101828;
+        }
+
+        .profile-role {
+            font-size: 12px;
+            color: #667085;
+        }
+
+        /* Main View Space */
+        .view-container {
+            padding: 32px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Alert Banner */
+        .alert-banner {
+            background-color: #fef3f2;
+            border: 1px solid #fee4e2;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .alert-message {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #b42318;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .alert-link {
+            color: #b42318;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .alert-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Summary Header */
+        .summary-header-block {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .summary-title h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #101828;
+            margin-bottom: 4px;
+        }
+
+        .summary-title p {
+            font-size: 14px;
+            color: #667085;
+        }
+
+        .btn-add {
+            background-color: #1d2939;
+            color: #ffffff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Metrics Cards Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #eaecf0;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-data-side {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667085;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #101828;
+        }
+
+        .card-value span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #667085;
+            margin-left: 4px;
+        }
+
+        .card-icon-box {
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Variasi warna kartu metrics */
+        .card-total .card-icon-box { background-color: #e0eaff; color: #3538cd; }
+        .card-warning .card-icon-box { background-color: #fef0c7; color: #dc6803; }
+        .card-danger .card-icon-box { background-color: #fee4e2; color: #d92d20; }
+        
+        /* Dekorasi visual lingkaran samar di kartu pertama */
+        .card-total::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: #f4f7ff;
+            border-radius: 50%;
+            right: -30px;
+            bottom: -30px;
+            z-index: 0;
+        }
+        .card-total * { z-index: 1; }
+
+        /* --- TABLE SECTION --- */
+        .table-section {
+            background-color: #ffffff;
+            border: 1px solid #eaecf0;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaecf0;
+        }
+
+        .table-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #101828;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon-action {
+            background-color: #ffffff;
+            border: 1px solid #d0d5dd;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #344054;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f9fafb;
+            padding: 12px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475467;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eaecf0;
+        }
+
+        td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #eaecf0;
+            font-size: 14px;
+            color: #344054;
+            vertical-align: middle;
+        }
+
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-icon-box {
+            background-color: #f2f4f7;
+            color: #475467;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #101828;
+        }
+
+        .product-sku {
+            font-size: 12px;
+            color: #667085;
+            margin-top: 2px;
+        }
+
+        /* Badges status */
+        .badge {
+            display: inline-flex;
+            padding: 4px 8px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success { background-color: #ecfdf3; color: #027a48; }
+        .badge-warning { background-color: #fffaeb; color: #b54708; }
+        .badge-danger { background-color: #fef3f2; color: #b42318; }
+
+        .text-danger { color: #b42318; font-weight: 600; }
+        .text-warning { color: #b54708; font-weight: 600; }
+
+        .btn-restock {
+            background-color: #ffffff;
+            border: 1px solid #d0d5dd;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #344054;
+        }
+
+        .btn-restock-danger {
+            background-color: #b42318;
+            color: #ffffff;
+            border: none;
+        }
+        .btn-restock-warning {
+            background-color: #fef0c7;
+            border: 1px solid #fedf89;
+            color: #b54708;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR MENU LEFT -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon-box">
+                <i data-lucide="box" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+                <div class="brand-title">StockFlow</div>
+                <div class="brand-subtitle">Inventory Management</div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active">
+                <i data-lucide="layout-dashboard"></i> Dashboard
+            </a>
+            <a href="#" class="nav-item">
+                <i data-lucide="package"></i> Stok Barang
+            </a>
+            <a href="#" class="nav-item">
+                <i data-lucide="clipboard-list"></i> Permintaan Restock
+            </a>
+            <a href="#" class="nav-item">
+                <i data-lucide="bar-chart-3"></i> Laporan
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i data-lucide="settings"></i> Pengaturan
+            </a>
+            <!-- Menghubungkan tombol keluar kembali ke form login utama -->
+            <a href="index.html" class="nav-item logout-item">
+                <i data-lucide="log-out"></i> Keluar
+            </a>
+        </div>
+    </aside>
+
+    <!-- CONTENT RIGHT AREA -->
+    <main class="main-content">
+        <!-- Top Navigation Header -->
+        <header class="topbar">
+            <div class="search-container">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" class="search-input" placeholder="Cari barang, SKU...">
+            </div>
+
+            <div class="topbar-right">
+                <button class="notification-btn">
+                    <i data-lucide="bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="profile-box">
+                    <div class="profile-info">
+                        <div class="profile-name">Admin Utama</div>
+                        <div class="profile-role">Gudang Pusat</div>
+                    </div>
+                    <!-- Menggunakan foto profil contoh placeholder -->
+                    <img class="profile-img" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop" alt="Profile">
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Container -->
+        <div class="view-container">
+            
+            <!-- Warning Banner Alert -->
+            <div class="alert-banner">
+                <div class="alert-message">
+                    <i data-lucide="alert-triangle"></i>
+                    <span>Perhatian: 8 barang kritis dan butuh restock segera.</span>
+                </div>
+                <a href="#" class="alert-link">Lihat Detail</a>
+            </div>
+
+            <!-- Header Section Info -->
+            <div class="summary-header-block">
+                <div class="summary-title">
+                    <h2>Ringkasan Inventaris</h2>
+                    <p>Pantau status stok dan pergerakan barang hari ini.</p>
+                </div>
+                <button class="btn-add">
+                    <i data-lucide="plus"></i> Tambah Barang Baru
+                </button>
+            </div>
+
+            <!-- Cards Overview Grid -->
+            <section class="metrics-grid">
+                <!-- Card 1 -->
+                <div class="card card-total">
+                    <div class="card-data-side">
+                        <span class="card-label">Total Barang</span>
+                        <div class="card-value">1.240</div>
+                    </div>
+                    <div class="card-icon-box">
+                        <i data-lucide="archive"></i>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="card card-warning">
+                    <div class="card-data-side">
+                        <span class="card-label">Stok Menipis</span>
+                        <div class="card-value">8 <span>Item</span></div>
+                    </div>
+                    <div class="card-icon-box">
+                        <i data-lucide="trending-down"></i>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="card card-danger">
+                    <div class="card-data-side">
+                        <span class="card-label">Stok Habis</span>
+                        <div class="card-value">3 <span>Item</span></div>
+                    </div>
+                    <div class="card-icon-box">
+                        <i data-lucide="alert-circle"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Table Inventory Section -->
+            <section class="table-section">
+                <div class="table-header">
+                    <h3>Daftar Inventaris</h3>
+                    <div class="table-actions">
+                        <button class="btn-icon-action"><i data-lucide="sliders-horizontal" style="width: 18px; height: 18px;"></i></button>
+                        <button class="btn-icon-action"><i data-lucide="download" style="width: 18px; height: 18px;"></i></button>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Barang & SKU</th>
+                            <th>Kategori</th>
+                            <th>Jumlah Stok</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Baris 1 -->
+                        <tr>
+                            <td>
+                                <div class="product-cell">
+                                    <div class="product-icon-box"><i data-lucide="monitor" style="width: 20px; height: 20px;"></i></div>
+                                    <div>
+                                        <div class="product-name">Monitor Dell 27"</div>
+                                        <div class="product-sku">SKU-MON-001</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Elektronik</td>
+                            <td><strong>45 Unit</strong></td>
+                            <td><span class="badge badge-success">Stok Aman</span></td>
+                            <td><button class="btn-restock"><i data-lucide="plus" style="width: 14px; height: 14px;"></i> Restock</button></td>
+                        </tr>
+                        <!-- Baris 2 -->
+                        <tr>
+                            <td>
+                                <div class="product-cell">
+                                    <div class="product-icon-box"><i data-lucide="keyboard" style="width: 20px; height: 20px;"></i></div>
+                                    <div>
+                                        <div class="product-name">Mechanical Keyboard K8</div>
+                                        <div class="product-sku">SKU-KB-022</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Aksesoris</td>
+                            <td class="text-warning">12 Unit</td>
+                            <td><span class="badge badge-warning">Stok Menipis</span></td>
+                            <td><button class="btn-restock btn-restock-warning"><i data-lucide="plus" style="width: 14px; height: 14px;"></i> Restock</button></td>
+                        </tr>
+                        <!-- Baris 3 -->
+                        <tr>
+                            <td>
+                                <div class="product-cell">
+                                    <div class="product-icon-box"><i data-lucide="mouse" style="width: 20px; height: 20px;"></i></div>
+                                    <div>
+                                        <div class="product-name">Wireless Mouse M330</div>
+                                        <div class="product-sku">SKU-MS-045</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Aksesoris</td>
+                            <td class="text-danger">0 Unit</td>
+                            <td><span class="badge badge-danger">Stok Habis</span></td>
+                            <td><button class="btn-restock btn-restock-danger"><i data-lucide="plus" style="width: 14px; height: 14px;"></i> Restock</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Script Rendering Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

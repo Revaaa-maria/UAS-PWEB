@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
+    <!-- Menggunakan Font Roboto (Font standar Google) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f9; /* Latar belakang abu-abu khas Google OAuth baru */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #ffffff;
+            border-radius: 28px; /* Sudut membulat lebar khas Material 3 */
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e3e3e3;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Logo */
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .google-logo {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #1f1f1f;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #444746;
+        }
+
+        /* Account List */
+        .account-list {
+            list-style: none;
+            margin-top: 8px;
+            border-bottom: 1px solid #e3e3e3;
+        }
+
+        .account-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            cursor: pointer;
+            border-top: 1px solid #e3e3e3;
+            transition: background-color 0.2s;
+        }
+
+        .account-item:hover {
+            background-color: #f7f9fc;
+            margin-left: -40px;
+            margin-right: -40px;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        /* Avatar styling */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 14px;
+            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        /* Warna avatar inisial */
+        .avatar-blue {
+            background-color: #44596e;
+        }
+
+        .avatar-icon {
+            background-color: #f0f4f9;
+            color: #444746;
+            border: 1px solid #c4c7c5;
+        }
+
+        .account-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .account-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f1f1f;
+        }
+
+        .account-email {
+            font-size: 12px;
+            color: #444746;
+            margin-top: 2px;
+        }
+
+        .action-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f1f1f;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: #444746;
+        }
+
+        .footer-links a {
+            color: #444746;
+            text-decoration: none;
+            margin-right: 16px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .language-selector:hover {
+            background-color: #f1f3f4;
+        }
+
+        .chevron {
+            width: 12px;
+            height: 12px;
+            fill: #444746;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logo Google -->
+        <div class="header">
+            <svg class="google-logo" viewBox="0 0 24 24">
+                <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.52 5.52 0 0 1 8.5 13c0-3.037 2.462-5.5 5.5-5.5 1.406 0 2.68.53 3.655 1.4l3.112-3.112C18.882 3.912 16.58 3 14 3 8.478 3 4 7.478 4 13s4.478 10 10 10c5.5 0 9.5-4 9.5-9.5 0-.741-.09-1.428-.26-2.215H12.24z"/>
+                <path fill="#4285F4" d="M23.24 11.285c.17.787.26 1.474.26 2.215 0 5.5-4 9.5-9.5 9.5V18.5c2.617 0 4.488-1.704 5.136-4.114h-6.887v-4.114h11z"/>
+                <path fill="#FBBC05" d="M14 23c-5.522 0-10-4.478-10-10 0-1.127.188-2.211.533-3.226l-3.32-2.556C.422 8.914 0 10.912 0 13c0 6.627 5.373 12 12 12h2v-4.5c-.648.332-1.312.5-2 .5z"/>
+                <path fill="#34A853" d="M14 3c2.58 0 4.882.912 6.767 2.788l3.112-3.112C20.12 1.056 17.218 0 14 0 7.373 0 2 5.373 2 12c0 .343.018.682.047 1.018l3.433-2.645C6.01 6.886 8.711 5 14 5v-2z"/>
+            </svg>
+            <h1>Choose an account</h1>
+            <p class="subtitle">to continue to StockFlow</p>
+        </div>
+
+        <!-- Daftar Akun -->
+        <ul class="account-list">
+            <!-- Akun 1 (Dengan Foto Profil) -->
+            <!-- Ubah yang sebelumnya onclick="alert(...)" menjadi window.location.href -->
+<li class="account-item" onclick="window.location.href='dashboard.html'">
+                <!-- Ganti URL src di bawah ini dengan foto profil asli jika ada -->
+                <img class="avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop" alt="Admin Utama">
+                <div class="account-info">
+                    <span class="account-name">Admin Utama</span>
+                    <span class="account-email">admin@stockflow.id</span>
+                </div>
+            </li>
+
+            <!-- Akun 2 (Inisial Huruf G) -->
+            <li class="account-item" onclick="alert('Login sebagai Gudang Pusat')">
+                <div class="avatar avatar-blue">G</div>
+                <div class="account-info">
+                    <span class="account-name">Gudang Pusat</span>
+                    <span class="account-email">gudang@stockflow.id</span>
+                </div>
+            </li>
+
+            <!-- Opsi Gunakan Akun Lain -->
+            <li class="account-item" onclick="alert('Gunakan akun lain')">
+                <div class="avatar avatar-icon">
+                    <!-- SVG Ikon User Google -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="account-info">
+                    <span class="action-text">Use another account</span>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <div class="language-selector">
+                <span>English (United States)</span>
+                <svg class="chevron" viewBox="0 0 24 24">
+                    <path d="M7 10l5 5 5-5H7z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
